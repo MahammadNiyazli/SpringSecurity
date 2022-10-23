@@ -25,8 +25,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtProvider {
-    @Value("${authentication.jwt.expiration-in-ms}")
-    private Long JWT_EXPIRATION_IN_MS;
 
     private static final String JWT_TOKEN_PREFIX = "Bearer";
     private static final String JWT_HEADER_STRING = "Authorization";
@@ -52,17 +50,10 @@ public class JwtProvider {
         }
     }
 
-    public String generateToken(Authentication authentication){
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining());
-
+    public String generateToken(UserPrincipal userPrincipal, Long expireDate){
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername())
-                .claim("userId",userPrincipal.getId())
-                .claim("roles",authorities)
-                .setExpiration(new Date(System.currentTimeMillis()+JWT_EXPIRATION_IN_MS))
+                .setExpiration(new Date(System.currentTimeMillis()+expireDate))
                 .signWith(jwtPrivateKey, SignatureAlgorithm.RS512)
                 .compact();
     }

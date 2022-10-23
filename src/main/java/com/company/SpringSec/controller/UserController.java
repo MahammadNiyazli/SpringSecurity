@@ -25,10 +25,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/sign-up")
-    public ResponseEntity<UserDto> createUser(@RequestBody CreateUserRequest request){
-        return new ResponseEntity<>(userService.createUser(request), HttpStatus.CREATED);
-    }
 
     @GetMapping("/findAllUsers")
     public ResponseEntity<List<UserDto>> getAllUsers(@Parameter(hidden = true)
