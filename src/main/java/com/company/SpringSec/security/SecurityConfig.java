@@ -1,6 +1,8 @@
 package com.company.SpringSec.security;
 
 
+import com.company.SpringSec.exceptions.JWTAccessDeniedHandler;
+import com.company.SpringSec.exceptions.JwtAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,6 +25,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SecurityConfig {
 
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
+    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
+    private final JWTAccessDeniedHandler accessDeniedHandler;
 
 
     private static final String[] AUTH_WHITELIST = {
@@ -35,8 +39,10 @@ public class SecurityConfig {
             "/api/v1/auth/login"
     };
 
-    public SecurityConfig(JwtAuthorizationFilter jwtAuthorizationFilter) {
+    public SecurityConfig(JwtAuthorizationFilter jwtAuthorizationFilter, JwtAuthenticationEntryPoint authenticationEntryPoint, JWTAccessDeniedHandler accessDeniedHandler) {
         this.jwtAuthorizationFilter = jwtAuthorizationFilter;
+        this.authenticationEntryPoint = authenticationEntryPoint;
+        this.accessDeniedHandler = accessDeniedHandler;
     }
 
 
@@ -60,6 +66,9 @@ public class SecurityConfig {
 
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .and()
 
                 .build();
     }
