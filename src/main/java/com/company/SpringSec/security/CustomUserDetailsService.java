@@ -2,7 +2,6 @@ package com.company.SpringSec.security;
 
 import com.company.SpringSec.model.User;
 import com.company.SpringSec.service.UserService;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

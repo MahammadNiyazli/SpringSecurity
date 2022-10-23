@@ -26,9 +26,7 @@ public class AuthenticationService {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signInRequest.getPin(),signInRequest.getPassword())
         );
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-
-        return jwtProvider.generateToken(userPrincipal);
+        return jwtProvider.generateToken(authentication);
     }
 
 
