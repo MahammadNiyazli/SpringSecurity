@@ -3,6 +3,7 @@ package com.company.SpringSec.controller;
 import com.company.SpringSec.dto.UserDto;
 import com.company.SpringSec.dto.UserLoginResponse;
 import com.company.SpringSec.dto.request.CreateUserRequest;
+import com.company.SpringSec.dto.request.RefreshTokenRequest;
 import com.company.SpringSec.dto.request.SignInRequest;
 import com.company.SpringSec.security.UserPrincipal;
 import com.company.SpringSec.service.AuthenticationService;
@@ -36,10 +37,9 @@ public class AuthController {
         return ResponseEntity.ok(authenticationService.singInAndReturnJWT(request));
     }
 
-    @GetMapping("/refresh-token")
-    public ResponseEntity<UserLoginResponse> refreshToken(@Parameter(hidden = true)
-                                                              @AuthenticationPrincipal UserPrincipal userPrincipal){
-        return ResponseEntity.ok(authenticationService.refreshToken(userPrincipal));
+    @PostMapping("/refresh-token")
+    public ResponseEntity<UserLoginResponse> refreshToken(@RequestBody RefreshTokenRequest request){
+        return ResponseEntity.ok(authenticationService.refreshToken(request));
     }
 
 }

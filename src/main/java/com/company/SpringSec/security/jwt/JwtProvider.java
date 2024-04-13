@@ -1,5 +1,6 @@
 package com.company.SpringSec.security.jwt;
 
+import com.company.SpringSec.dto.request.RefreshTokenRequest;
 import com.company.SpringSec.security.UserPrincipal;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -67,6 +68,21 @@ public class JwtProvider {
                 .setSigningKey(jwtPublicKey)
                 .build()
                 .parseClaimsJws(token)
+                .getBody();
+
+        String username = claims.getSubject();
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        return username != null ?
+                new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities()) : null;
+    }
+
+    public Authentication getAuthentication(RefreshTokenRequest request){
+
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(jwtPublicKey)
+                .build()
+                .parseClaimsJws(request.getRefreshToken())
                 .getBody();
 
         String username = claims.getSubject();

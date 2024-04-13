@@ -1,6 +1,7 @@
 package com.company.SpringSec.service;
 
 import com.company.SpringSec.dto.UserLoginResponse;
+import com.company.SpringSec.dto.request.RefreshTokenRequest;
 import com.company.SpringSec.dto.request.SignInRequest;
 import com.company.SpringSec.security.UserPrincipal;
 import com.company.SpringSec.security.jwt.JwtProvider;
@@ -36,8 +37,9 @@ public class AuthenticationService {
     }
 
 
-    public UserLoginResponse refreshToken(UserPrincipal userPrincipal){
-        return getLoginResponse(userPrincipal);
+    public UserLoginResponse refreshToken(RefreshTokenRequest request){
+        Authentication authentication = jwtProvider.getAuthentication(request);
+        return getLoginResponse((UserPrincipal) authentication.getPrincipal());
     }
 
 

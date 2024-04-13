@@ -1,7 +1,8 @@
-package com.company.SpringSec.dto;
+package com.company.SpringSec.dto.request;
 
-public class UserLoginResponse {
+import jdk.jfr.DataAmount;
 
+public class RefreshTokenRequest {
     private String accessToken;
     private String refreshToken;
 
@@ -9,20 +10,15 @@ public class UserLoginResponse {
         return accessToken;
     }
 
-    public UserLoginResponse setAccessToken(String accessToken) {
+    public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
-        return this;
     }
 
     public String getRefreshToken() {
         return refreshToken;
     }
 
-    public UserLoginResponse setRefreshToken(String refreshToken) {
+    public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
-        return this;
     }
-
-
-
 }
